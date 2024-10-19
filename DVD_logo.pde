@@ -1,16 +1,20 @@
 import java.math.BigInteger;
 
 float startAngle = radians(45);  // Start angle (in radians)
+float speed = 5;     // Speed of movement
 
 float x, y, end_x, end_y;          // Position of the line
 float dx, dy;        // Direction of movement
-float speed = 5;     // Speed of movement
 
 float endpoint_size = 30;
+boolean stop_drawing = false;
+
 
 void setup() {
-  size(700, 492);
+  //size(700, 492);
+  fullScreen();
   strokeWeight(2);
+  stop_drawing = false;
   speed = 7;
   background(50);
   int gcd = BigInteger.valueOf(width).gcd(BigInteger.valueOf(height)).intValue();
@@ -35,8 +39,7 @@ void setup() {
 }
 
 void draw() {
-  
-  for(int i = 0;i<speed;i++) {
+  for(int i = 0;i<speed & !stop_drawing;i++) {
     // Draw the red line
     stroke(color(255, 0, 0), 220);
     point(x, y);
@@ -53,8 +56,7 @@ void draw() {
       dy *= -1;
     }
     if (x==end_x && y==end_y) {
-      delay(2000);
-      setup();
+      stop_drawing=true;
     }
   }
 }
@@ -63,6 +65,9 @@ void draw() {
 void keyPressed() {
   if (key == 'f' || key == 'F') {
     speed += 1;
+  }
+  if (key == 'r' || key == 'R') {
+    setup();
   }
   if (key == 'b' || key == 'B') {
     speed *= 0.9;
